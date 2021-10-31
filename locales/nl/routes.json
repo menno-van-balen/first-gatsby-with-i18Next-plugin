@@ -1,0 +1,8 @@
+{
+  "/": "/",
+  "/about": "/over",
+  "/blog": "/blog",
+  "/blog/my-first-post": "/blog/mijn-eerste-post",
+  "/blog/second-post": "/blog/tweede-post",
+  "/blog/third-post": "/blog/derde-post"
+}
