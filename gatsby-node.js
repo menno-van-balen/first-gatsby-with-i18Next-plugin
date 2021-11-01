@@ -1,37 +1,4 @@
-// const path = require("path");
-
-// exports.createPages = async ({ actions, graphql, reporter }) => {
-//   const { createPage } = actions;
-//   const blogPostTemplate = path.resolve("src/blog/blog-post.js");
-//   const { data } = await graphql(`
-//     query {
-//       allMdx {
-//         nodes {
-//           frontmatter {
-//             date
-//             lang
-//             path
-//           }
-//         }
-//       }
-//     }
-//   `);
-
-//   if (query.errors) {
-//     reporter.panicOnBuild("Error while running GraphQL query.");
-//   }
-
-//   // Post template pages and context
-//   data.allMdx.nodes.forEach(({ node }) => {
-//     createPage({
-//       path: `/blog/${node.frontmatter.path}`,
-//       component: blogPostTemplate,
-//       context: {
-//         slug: node.frontmatter.path,
-//       },
-//     });
-//   });
-
+// Idea for pagenation inside createPages
 //   // Articles template pages and context
 //   // const posts = query.data.allMarkdownRemark.edges;
 //   // const postsPerPage = 20;
@@ -49,65 +16,11 @@
 //   //     },
 //   //   });
 //   // });
-// };
 
 const path = require("path");
 const getLocalizedRoute = require("./src/i18n/getLocalizedRoute");
 const removeEndSlash = (path) =>
   path === `/` ? path : path.replace(/\/$/, ``);
-
-// exports.createPages = async ({ page, actions, graphql, reporter }) => {
-//   const { createPage, deletePage } = actions;
-
-//   const result = await graphql(`
-//       defaultLanguage: locale {
-//         language
-//       }
-//       allLocale {
-//         edges {
-//           node {
-//             language
-//           }
-//         }
-//       }
-//     }
-//   `);
-
-//   if (result.errors) {
-//     reporter.panicOnBuild('🚨  ERROR: Loading "createPages" query_1');
-//   }
-
-//   // First recreate pages then create blog pages
-//   const languages = result.data.allLocale.edges;
-
-//   console.log("!");
-
-//   if (page.internalComponentName === "ComponentDev404Page") {
-//     return;
-//   }
-
-//   return new Promise((resolve) => {
-//     console.log("!!!");
-//     deletePage(page);
-
-//     languages.forEach((lang) => {
-//       console.log(page.path);
-//       const language = lang.node.language;
-//       const localizedPath = getLocalizedPath(page.path, language);
-//       const localePage = {
-//         ...page,
-//         path: localizedPath,
-//         context: {
-//           locale: language,
-//           originalPath: page.path,
-//         },
-//       };
-//       createPage(localePage);
-//     });
-
-//     resolve();
-//   });
-// };
 
 // Create blogpost pages with localized routes
 exports.createPages = async ({ graphql, actions, reporter }) => {
@@ -138,8 +51,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   }
 
   // Create blog post pages.
-  const defaultLanguage = result.data.defaultLanguage.language;
   const posts = result.data.allMdx.edges;
+  const defaultLanguage = result.data.defaultLanguage.language;
 
   posts.forEach((post) => {
     const language = post.node.frontmatter.lang;
