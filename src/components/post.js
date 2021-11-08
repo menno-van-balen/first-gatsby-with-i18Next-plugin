@@ -22,7 +22,7 @@ const BlogPost = ({ data }) => {
 };
 
 export const query = graphql`
-  query ($id: String, $language: String) {
+  query ($id: String) {
     mdx(id: { eq: $id }) {
       frontmatter {
         title
@@ -38,15 +38,6 @@ export const query = graphql`
         }
       }
       body
-    }
-    locales: allLocale(filter: { language: { eq: $language } }) {
-      edges {
-        node {
-          ns
-          data
-          language
-        }
-      }
     }
   }
 `;
